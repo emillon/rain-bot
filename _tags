@@ -1,1 +1,3 @@
+<lib>: include
 <test/*>: package(alcotest)
+true: package(cohttp)
