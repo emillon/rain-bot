@@ -28,6 +28,32 @@ let test_rain_not_ok () =
   let open Rain_level in
   test_rain_output [No_rain; High] "You should take an umbrella."
 
+let test_json_ok () =
+  let open Rain_level in
+  let open Alcotest in
+  let json =
+    `Assoc [
+      "hasData", `Bool true;
+      "dataCadran", `List [
+        `Assoc [
+          "niveauPluie", `Int 2;
+          "color", `String "5ec5ed";
+        ];
+        `Assoc [
+          "niveauPluie", `Int 1;
+          "color", `String "ffffff";
+        ];
+      ]
+    ]
+  in
+  let expected = Ok [Low;No_rain] in
+  let res = Mf_client.parse_json_response json in
+  check
+    (result (list (module Rain_level)) string)
+    "parsed json"
+    expected
+    res
+
 let lwt_test f () =
   Lwt_main.run @@ f ()
 
@@ -37,5 +63,8 @@ let () =
     ; ("Rain", [
       ("OK", `Quick, lwt_test test_rain_ok);
       ("Not OK", `Quick, lwt_test test_rain_not_ok);
+      ])
+    ; ("JSON", [
+      ("OK", `Quick, test_json_ok);
       ])
     ]

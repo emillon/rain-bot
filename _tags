@@ -3,3 +3,5 @@
 true: package(cohttp.lwt)
 true: package(lwt.ppx)
 true: package(ppx_deriving.std)
+true: package(ppx_deriving_yojson)
+true: package(yojson)
