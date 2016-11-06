@@ -5,4 +5,4 @@ hour. Or at least according to Météo France which is not always right.
 
 Written in a hurry during [#NaBoMaMo] 2016, the *National Bot Making Month*.
 
-[#NaBoMaMo 2016]: https://tullyhansen.github.io/NaBoMaMo/
+[#NaBoMaMo]: https://tullyhansen.github.io/NaBoMaMo/
