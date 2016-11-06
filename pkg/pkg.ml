@@ -3,8 +3,8 @@
 open Topkg
 
 let () =
-  Pkg.describe "bot-pluie" @@ fun c ->
+  Pkg.describe "rain-bot" @@ fun c ->
   Ok [
-    Pkg.bin "bin/bot_pluie";
+    Pkg.bin "bin/rain_bot";
     Pkg.test "test/testsuite";
   ]

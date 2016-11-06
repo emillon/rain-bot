@@ -1,7 +1,8 @@
-# Va-t-il pleuvoir dans l'heure? La réponse sur Slack.
+# Is it going to rain? The answer in a Slack channel near you.
 
-`bot-pluie` est un bot Slack qui permet de savoir s'il va pleuvoir dans l'heure,
-ou non. En tous cas selon Météo France car cela ne marche pas toujours.
+`rain-bot` is a Slack bot which tells if it is going to rain during the next
+hour. Or at least according to Météo France which is not always right.
 
-Ecrit en 2-2 lors du [#NaBoMaMo](https://tullyhansen.github.io/NaBoMaMo/), le
-National Bot Making Month.
+Written in a hurry during [#NaBoMaMo] 2016, the *National Bot Making Month*.
+
+[#NaBoMaMo 2016]: https://tullyhansen.github.io/NaBoMaMo/

@@ -58,7 +58,7 @@ let lwt_test f () =
   Lwt_main.run @@ f ()
 
 let () =
-  Alcotest.run "Bot-pluie"
+  Alcotest.run "rain-bot"
     [ ("Bot", [("Post", `Quick, lwt_test test_post)])
     ; ("Rain", [
       ("OK", `Quick, lwt_test test_rain_ok);
