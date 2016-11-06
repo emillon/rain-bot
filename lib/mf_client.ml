@@ -46,3 +46,8 @@ let of_uri uri =
         | Error e -> error "parse error"
       end
   | _ -> error "remote server returned an error"
+
+let of_region_code code =
+  of_uri @@ Uri.of_string @@ Printf.sprintf
+    "http://www.meteofrance.com/mf3-rpc-portlet/rest/pluie/%s"
+    code
