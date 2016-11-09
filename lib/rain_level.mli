@@ -4,3 +4,5 @@ type t =
   | Medium
   | High
   [@@deriving eq,show]
+
+val to_emoji : t -> string

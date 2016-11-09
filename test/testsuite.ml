@@ -20,6 +20,15 @@ let test_rain_output levels expected =
   assert_text r expected;
   Lwt.return_unit
 
+let test_post_list () =
+  let open Rain_level in
+  let levels = [No_rain; Low; Medium; High] in
+  let client = Lwt.return levels in
+  let b = Bot.create ~client () in
+  let%lwt r = Bot.post_list b in
+  assert_text r ":sunny: :partly_sunny_rain: :rain_cloud: :tornado:";
+  Lwt.return_unit
+
 let test_rain_ok () =
   let open Rain_level in
   test_rain_output [No_rain; No_rain] "It looks OK."
@@ -59,7 +68,10 @@ let lwt_test f () =
 
 let () =
   Alcotest.run "rain-bot"
-    [ ("Bot", [("Post", `Quick, lwt_test test_post)])
+    [ ("Bot", [
+      ("Post", `Quick, lwt_test test_post);
+      ("Post list", `Quick, lwt_test test_post_list);
+      ])
     ; ("Rain", [
       ("OK", `Quick, lwt_test test_rain_ok);
       ("Not OK", `Quick, lwt_test test_rain_not_ok);
