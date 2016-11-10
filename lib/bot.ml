@@ -18,8 +18,23 @@ let post b =
   with _ ->
     Lwt.return (`OK, "Maybe.")
 
-let respond b =
-  let%lwt (status, body) = post b in
+let post_list b =
+  let%lwt rain_data = b.mf_client in
+  let s = String.concat " " @@ List.map Rain_level.to_emoji rain_data in
+  Lwt.return (`OK, s)
+
+let get_command data =
+  match List.assoc "text" data with
+    | ["list"] -> `List
+    | _ -> `Default
+    | exception Not_found -> `Default
+
+let respond b data =
+  let%lwt (status, body) =
+    match get_command data with
+    | `Default -> post b
+    | `List -> post_list b
+  in
   Cohttp_lwt_unix.Server.respond_string ~status ~body ()
 
 let callback b conn request request_body =
@@ -27,7 +42,9 @@ let callback b conn request request_body =
     Uri.path (Cohttp.Request.uri request)
   in
   if req_path = b.path then
-    respond b
+    let%lwt body_s = Cohttp_lwt_body.to_string request_body in
+    let data = Uri.query_of_encoded body_s in
+    respond b data
   else
     Cohttp_lwt_unix.Server.respond_not_found ()
 
