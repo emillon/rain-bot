@@ -29,6 +29,23 @@ let test_post_list () =
   assert_text r ":sunny: :partly_sunny_rain: :rain_cloud: :tornado:";
   Lwt.return_unit
 
+let test_when levels expected =
+  let client = Lwt.return levels in
+  let b = Bot.create ~client () in
+  let%lwt r = Bot.post_when b in
+  assert_text r expected;
+  Lwt.return_unit
+
+let test_post_when_later () =
+  let open Rain_level in
+  let levels = [Low; Low; No_rain; No_rain; No_rain; High] in
+  test_when levels "It will get better in 10 minutes."
+
+let test_post_when_never () =
+  let open Rain_level in
+  let levels = [Low; Low; High; Medium; Low; High] in
+  test_when levels "It does not look like it is going to get better."
+
 let test_rain_ok () =
   let open Rain_level in
   test_rain_output [No_rain; No_rain] "It looks OK."
@@ -71,6 +88,8 @@ let () =
     [ ("Bot", [
       ("Post", `Quick, lwt_test test_post);
       ("Post list", `Quick, lwt_test test_post_list);
+      ("Post when", `Quick, lwt_test test_post_when_later);
+      ("Post when", `Quick, lwt_test test_post_when_never);
       ])
     ; ("Rain", [
       ("OK", `Quick, lwt_test test_rain_ok);
